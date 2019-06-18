@@ -1,10 +1,6 @@
 import  torch
 from    torch import nn
 from    torch.nn import functional as F
-
-
-
-
 class Lenet5(nn.Module):
     """
     for car logo dataset.
