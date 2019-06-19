@@ -23,6 +23,7 @@ def getTestData(file):
     data_test = DataLoader(testset, batch_size=1)
     return data_test
 
+
 def test_model(data_set):
     model.eval()
     pred = []
@@ -51,6 +52,7 @@ def callBack():
 root = Tk()
 Button_Font = tkFont.Font(family="Helvetica",size=36, weight="bold")
 Label_Font = tkFont.Font(family="Helvetica",size=24, weight="bold")
+
 
 def main():
 
