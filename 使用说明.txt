@@ -1,0 +1,12 @@
+相关环境说明：
+操作系统：win10
+python版本：python3.6
+python依赖包和版本：
+torch 1.1.0
+torchvision 0.3.0
+Pillow 6.0.0
+
+
+1、训练模型请使用python运行 train3.py
+[注]：模型已经训练好了，若无必要无需再次训练
+2、测试训练好的模型请使用python运行 loadModel.py

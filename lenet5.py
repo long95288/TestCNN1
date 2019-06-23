@@ -10,38 +10,34 @@ class Lenet5(nn.Module):
 
         self.conv_unit = nn.Sequential(
             # x: [b, 3, 32, 32] => [b, 16, ]
-            nn.Conv2d(3, 16, kernel_size=5, stride=1, padding=0),
-            nn.MaxPool2d(kernel_size=2, stride=2, padding=0),
-            #
-            nn.Conv2d(16, 32, kernel_size=5, stride=1, padding=0),
-            nn.MaxPool2d(kernel_size=2, stride=2, padding=0),
+            nn.Conv2d(3, 16, kernel_size=5, stride=1, padding=0),  # C1第一层卷积
+            nn.MaxPool2d(kernel_size=2, stride=2, padding=0), # S2 池化层
+            # 第二层卷积
+            nn.Conv2d(16, 32, kernel_size=5, stride=1, padding=0), # C3卷积层
+            nn.MaxPool2d(kernel_size=2, stride=2, padding=0),  # S4 池化层
             #
         )
-        # flatten
+        # flatten 展开
         # fc unit
         self.fc_unit = nn.Sequential(
-            nn.Linear(32*5*5, 32),
+            nn.Linear(32*5*5, 32), # 第一个全连接层
             nn.ReLU(),
             # nn.Linear(120, 84),
             # nn.ReLU(),
-            nn.Linear(32, 10)
+            nn.Linear(32, 10) # 第二个全连接层，输出十类识别结果
         )
 
-
         # [b, 3, 32, 32]
-        tmp = torch.randn(2, 3, 32, 32)
-        out = self.conv_unit(tmp)
+        # tmp = torch.randn(2, 3, 32, 32)
+        # out = self.conv_unit(tmp)
         # [b, 16, 5, 5]
-        print('conv out:', out.shape)
+        # print('conv out:', out.shape)
 
         # # use Cross Entropy Loss
         # self.criteon = nn.CrossEntropyLoss()
 
-
-
     def forward(self, x):
         """
-
         :param x: [b, 3, 32, 32]
         :return:
         """
@@ -52,23 +48,18 @@ class Lenet5(nn.Module):
         x = x.view(batchsz, 32*5*5)
         # [b, 16*5*5] => [b, 10]
         logits = self.fc_unit(x)
-
         # # [b, 10]
         # pred = F.softmax(logits, dim=1)
         # loss = self.criteon(logits, y)
-
         return logits
 
-def main():
-
-    net = Lenet5()
-
-    tmp = torch.randn(2, 3, 32, 32)
-    out = net(tmp)
-    print('lenet out:', out.shape)
-
-
-
+# def main():
+#
+#     net = Lenet5()
+#
+#     tmp = torch.randn(2, 3, 32, 32)
+#     out = net(tmp)
+#     print('lenet out:', out.shape)
 #
 # if __name__ == '__main__':
 #     main()

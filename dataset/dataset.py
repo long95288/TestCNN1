@@ -7,10 +7,14 @@ import numpy as np
 import os
 import cv2
 
+"""
+测试集和训练集的dataset
+
+"""
 # 数据集，
 class ReadData(data.Dataset):
     def __init__(self,transforms=None, train=True):
-        self.train = train
+        self.train = train  # 标记flag
         self.images_path = []  # 图片路径
         self.images_labels = []  # 图片的标签
         self._read_file() # 读取数据
@@ -38,11 +42,8 @@ class ReadData(data.Dataset):
 
     def _read_file(self):
         data_path = './data/'
-        if self.train:
+        if self.train: # 训练集从data文件夹中取文件
             # 获得训练集,并将图片路径放入变量中
-            # store = Store()
-            # self.images_path = store.get_train_images_path()
-            # self.images_labels = store.get_train_labels()
             files = os.listdir(data_path)
             for file in files:
                 file_path = data_path + file
@@ -50,9 +51,9 @@ class ReadData(data.Dataset):
                 label = int(file.strip().split("_")[0])  # 获得标签
                 label -= 1  # label -1 标签从0开始
                 self.images_labels.append(label)
-        else:  # 测试集和训练集一样
+        else:  # 测试集从testdata中取图片
             data_path = "./testdata/" # 测试文件的路径
-            print("获得测试文件")
+            # print("获得测试文件")
             files = os.listdir(data_path)
             for file in files:
                 file_path = data_path + file
@@ -60,8 +61,6 @@ class ReadData(data.Dataset):
                 label = int(file.strip().split("_")[0])  # 获得标签
                 label -= 1  # label -1 标签从0开始
                 self.images_labels.append(label)
-            # pass # 测试，将测试的图片和label放入变量中
-        # 设置路径和标签
 
     def __getitem__(self, index):
         img_path = self.images_path[index]
@@ -73,8 +72,8 @@ class ReadData(data.Dataset):
         # img = img/255.
         # data = img[:, :, :0]  # 通道一样,随便选一个
         # data = torch.from_numpy(data)
-        data = self.transforms(img) # 转换
-        return data, int(label) # 返回数据.标签
+        data = self.transforms(img)  # 转换
+        return data, int(label)  # 返回数据.标签
 
     def __len__(self):
         return len(self.images_path)
